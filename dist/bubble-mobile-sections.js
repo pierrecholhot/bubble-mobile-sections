@@ -1,4 +1,4 @@
-/*! bubble-mobile-sections v2.0.1 */
+/*! bubble-mobile-sections v2.0.2 */
 const E = {
   mobileBreakpoint: 767,
   safeAreaPadding: !1,
@@ -197,7 +197,7 @@ const y = () => {
   return t !== "transparent" && t !== "rgba(0, 0, 0, 0)" && !t.includes("var(");
 };
 let r = null;
-window.__bmsLogged || (window.__bmsLogged = !0, console.info("%c Bubble Mobile Sections v2.0.1 ", "background:#111827;color:#fff;padding:2px 8px;border-radius:6px;font-weight:600;"));
+window.__bmsLogged || (window.__bmsLogged = !0, console.info("%c Bubble Mobile Sections v2.0.2 ", "background:#111827;color:#fff;padding:2px 8px;border-radius:6px;font-weight:600;"));
 const S = {
   initialized: !1,
   activeSection: null,

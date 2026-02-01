@@ -1,6 +1,6 @@
 {
   "name": "bubble-mobile-sections",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Bottom navigation for Home Assistant Lovelace sections dashboards on mobile. It builds the buttons automatically from your Bubble Card separators.",
   "type": "module",
   "main": "dist/bubble-mobile-sections.js",
