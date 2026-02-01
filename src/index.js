@@ -54,6 +54,7 @@ const BMS = {
       return
     }
     this.activeSection = sectionName
+    Navigation.setActiveButton(sectionName)
     if (updateHash) {
       history.replaceState(null, '', `#${encodeURIComponent(sectionName)}`)
     }
@@ -247,6 +248,7 @@ const BMS = {
     const hashExists = this.sectionMap.has(hashSection)
     const initialSection = hashExists ? hashSection : this.sections[0].name
     Navigation.create(this.sections, (name) => this.showSection(name))
+    Navigation.setActiveButton(initialSection)
     this.addViewPadding()
     this.showSection(initialSection, false)
     this.lastPath = location.pathname

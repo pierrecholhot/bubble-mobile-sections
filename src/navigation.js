@@ -17,8 +17,8 @@ export const Navigation = {
           --bms-nav-gap: 8px;
           --bms-nav-z-index: 9;
           --bms-nav-blur: 10px;
-          --bms-btn-height: 42px;
-          --bms-btn-min-width: 42px;
+          --bms-btn-height: 48px;
+          --bms-btn-min-width: 48px;
           --bms-btn-padding: 0 8px;
           --bms-btn-color: transparent;
           --bms-btn-text-color: white;
@@ -48,6 +48,7 @@ export const Navigation = {
           overscroll-behavior-x: contain;
           -webkit-backdrop-filter: blur(var(--bms-nav-blur));
           backdrop-filter: blur(var(--bms-nav-blur));
+          box-sizing: border-box;
         }
         .bms-nav::-webkit-scrollbar {
           display: none;
@@ -58,8 +59,10 @@ export const Navigation = {
           gap: var(--bms-nav-gap);
           margin: 0 auto;
           padding: calc(var(--bms-nav-gap) * 2);
+          box-sizing: border-box;
         }
         .bms-btn {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -67,7 +70,7 @@ export const Navigation = {
           min-width: var(--bms-btn-min-width);
           padding: var(--bms-btn-padding);
           border: none;
-          background: var(--bms-btn-color);
+          background: transparent;
           color: var(--bms-btn-text-color);
           cursor: pointer;
           border-radius: var(--bms-btn-border-radius);
@@ -76,10 +79,31 @@ export const Navigation = {
             transform var(--bms-btn-transition-duration) ease;
           will-change: transform;
           -webkit-tap-highlight-color: transparent;
+          box-sizing: border-box;
+        }
+        .bms-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--bms-btn-color);
+          border-radius: inherit;
+          transform: scale(0);
+          transition: transform var(--bms-btn-transition-duration) ease;
         }
         .bms-btn:active {
           transform: scale(var(--bms-btn-active-scale));
           opacity: var(--bms-btn-active-opacity);
+        }
+        .bms-btn ha-icon {
+          position: relative;
+          color: var(--bms-btn-color);
+          transition: color var(--bms-btn-transition-duration) ease;
+        }
+        .bms-btn--current::before {
+          transform: scale(1);
+        }
+        .bms-btn--current ha-icon {
+          color: var(--bms-btn-text-color);
         }
         .bms-btn-label {
           display: none;
@@ -141,6 +165,13 @@ export const Navigation = {
       }
       this.element.remove()
       this.element = null
+    }
+  },
+  setActiveButton(sectionName) {
+    if (!this.element) return
+    const buttons = this.element.querySelectorAll('.bms-btn')
+    for (const btn of buttons) {
+      btn.classList.toggle('bms-btn--current', btn.dataset.section === sectionName)
     }
   },
 }

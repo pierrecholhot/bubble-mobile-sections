@@ -50,8 +50,8 @@ The navigation bar appears automatically on mobile devices on enabled dashboard 
 | `bms-nav-gap`                 | `8px`                      | Gap between buttons              |
 | `bms-nav-z-index`             | `9`                        | Stack order                      |
 | `bms-nav-blur`                | `10px`                     | Backdrop blur amount             |
-| `bms-btn-height`              | `42px`                     | Button height                    |
-| `bms-btn-min-width`           | `42px`                     | Button minimum width             |
+| `bms-btn-height`              | `48px`                     | Button height                    |
+| `bms-btn-min-width`           | `48px`                     | Button minimum width             |
 | `bms-btn-padding`             | `0 8px`                    | Button padding                   |
 | `bms-btn-color`               | `transparent`              | Button background color fallback |
 | `bms-btn-text-color`          | `white`                    | Button text/icon color           |
@@ -66,14 +66,12 @@ The navigation bar appears automatically on mobile devices on enabled dashboard 
 Use `#bms-nav` to completely override the nav styles
 
 ```css
-/** Override CSS variables here */
-html {
-  --bms-btn-text-color: pink;
-}
-/** Or just re-style it */
 #bms-nav {
+  --bms-btn-text-color: pink;
+
   box-shadow: 0 0 10px #000;
 }
+
 #bms-nav .bms-btn {
   border: 1px solid #fff;
 }
