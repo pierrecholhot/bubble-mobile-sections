@@ -1,4 +1,4 @@
-export const CONFIG = {
+const DEFAULT_CONFIG = {
   mobileBreakpoint: 767,
   safeAreaPadding: false,
   enabledPatterns: ['/lovelace/*'],
@@ -14,5 +14,14 @@ export const CONFIG = {
   wakeRecheckDelay: 500,
   navigationDelay: 100,
   resizeThrottleDelay: 150,
-  ...(window.bmsConfig || {}),
+}
+
+let config = null
+
+export const getConfig = () => {
+  if (!config) {
+    const overrides = window.BubbleMobileSections?.config ?? {}
+    config = { ...DEFAULT_CONFIG, ...overrides }
+  }
+  return config
 }

@@ -5,6 +5,9 @@ const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'))
 const banner = `/*! bubble-mobile-sections v${pkg.version} */`
 
 export default defineConfig({
+  define: {
+    __BMS_VERSION__: JSON.stringify(pkg.version),
+  },
   build: {
     lib: {
       entry: 'src/index.js',

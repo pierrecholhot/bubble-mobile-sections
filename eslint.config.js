@@ -12,6 +12,7 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
+        __BMS_VERSION__: 'readonly',
       },
     },
     rules: {

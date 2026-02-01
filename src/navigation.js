@@ -1,14 +1,15 @@
-import { CONFIG } from './config'
+import { getConfig } from './config'
 
 export const Navigation = {
   element: null,
   clickHandler: null,
   injectStyles() {
-    if (document.getElementById(CONFIG.styleId)) {
+    const styleId = getConfig().styleId
+    if (document.getElementById(styleId)) {
       return
     }
     const style = document.createElement('style')
-    style.id = CONFIG.styleId
+    style.id = styleId
     style.textContent = `
         html {
           --bms-nav-background: rgba(28, 28, 28, 0.1);
@@ -90,7 +91,7 @@ export const Navigation = {
     document.head.appendChild(style)
   },
   removeStyles() {
-    document.getElementById(CONFIG.styleId)?.remove()
+    document.getElementById(getConfig().styleId)?.remove()
   },
   create(sections, onSectionClick) {
     this.destroy()

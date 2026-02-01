@@ -1,5 +1,5 @@
 /*! bubble-mobile-sections v1.0.0 */
-const l = {
+const E = {
   mobileBreakpoint: 767,
   safeAreaPadding: !1,
   enabledPatterns: ["/lovelace/*"],
@@ -14,16 +14,24 @@ const l = {
   wakeDebounceDelay: 300,
   wakeRecheckDelay: 500,
   navigationDelay: 100,
-  resizeThrottleDelay: 150,
-  ...window.bmsConfig || {}
+  resizeThrottleDelay: 150
+};
+let g = null;
+const y = () => {
+  if (!g) {
+    const e = window.BubbleMobileSections?.config ?? {};
+    g = { ...E, ...e };
+  }
+  return g;
 }, u = {
   element: null,
   clickHandler: null,
   injectStyles() {
-    if (document.getElementById(l.styleId))
+    const e = y().styleId;
+    if (document.getElementById(e))
       return;
-    const e = document.createElement("style");
-    e.id = l.styleId, e.textContent = `
+    const t = document.createElement("style");
+    t.id = e, t.textContent = `
         html {
           --bms-nav-background: rgba(28, 28, 28, 0.1);
           --bms-nav-border-color: rgba(255, 255, 255, 0.1);
@@ -100,64 +108,67 @@ const l = {
         ha-icon {
           --mdc-icon-size: var(--bms-btn-icon-size);
         }
-      `, document.head.appendChild(e);
+      `, document.head.appendChild(t);
   },
   removeStyles() {
-    document.getElementById(l.styleId)?.remove();
+    document.getElementById(y().styleId)?.remove();
   },
-  create(e, i) {
+  create(e, t) {
     this.destroy(), this.injectStyles();
-    const t = document.createElement("nav");
-    t.id = "bms-nav", t.className = "bms-nav";
-    const a = document.createElement("div");
-    a.className = "bms-nav-inner";
-    for (const o of e) {
-      const s = document.createElement("button"), c = document.createElement("span"), r = document.createElement("ha-icon");
-      r.setAttribute("icon", o.icon), c.textContent = o.name, c.className = "bms-btn-label", s.className = "bms-btn", s.dataset.section = o.name, s.style.setProperty("--bms-btn-color", o.color), s.appendChild(r), s.appendChild(c), a.appendChild(s);
+    const i = document.createElement("nav");
+    i.id = "bms-nav", i.className = "bms-nav";
+    const o = document.createElement("div");
+    o.className = "bms-nav-inner";
+    for (const a of e) {
+      const s = document.createElement("button"), l = document.createElement("span"), r = document.createElement("ha-icon");
+      r.setAttribute("icon", a.icon), l.textContent = a.name, l.className = "bms-btn-label", s.className = "bms-btn", s.dataset.section = a.name, s.style.setProperty("--bms-btn-color", a.color), s.appendChild(r), s.appendChild(l), o.appendChild(s);
     }
-    this.clickHandler = (o) => {
-      const s = o.target.closest(".bms-btn");
-      s?.dataset.section && i(s.dataset.section);
-    }, t.addEventListener("click", this.clickHandler, { passive: !0 }), t.appendChild(a), document.body.appendChild(t), this.element = t;
+    this.clickHandler = (a) => {
+      const s = a.target.closest(".bms-btn");
+      s?.dataset.section && t(s.dataset.section);
+    }, i.addEventListener("click", this.clickHandler, { passive: !0 }), i.appendChild(o), document.body.appendChild(i), this.element = i;
   },
   destroy() {
     this.removeStyles(), this.element && (this.clickHandler && (this.element.removeEventListener("click", this.clickHandler), this.clickHandler = null), this.element.remove(), this.element = null);
   }
-}, C = (e) => {
-  let i = document;
-  for (const t of e) {
-    if (!i)
+}, P = (e) => {
+  let t = document;
+  for (const i of e) {
+    if (!t)
       return null;
-    i = i.shadowRoot?.querySelector(t) ?? i.querySelector?.(t);
+    t = t.shadowRoot?.querySelector(i) ?? t.querySelector?.(i);
   }
-  return i;
-}, g = (e, i) => {
-  let t = e;
-  for (; t; ) {
-    if (i(t))
-      return t;
-    t = t.parentElement ?? t.getRootNode()?.host;
+  return t;
+}, w = (e, t) => {
+  let i = e;
+  for (; i; ) {
+    if (t(i))
+      return i;
+    i = i.parentElement ?? i.getRootNode()?.host;
   }
   return null;
-}, E = (e) => new RegExp(
+}, R = (e) => new RegExp(
   "^" + e.replace(/\*\*/g, "{{GLOBSTAR}}").replace(/\*/g, "[^/]*").replace(/{{GLOBSTAR}}/g, ".*") + "$"
-), x = (e, i) => {
-  let t = 0, a = null;
-  const o = function(...s) {
-    const c = Date.now(), r = i - (c - t);
-    r <= 0 ? (a && (clearTimeout(a), a = null), t = c, e.apply(this, s)) : a || (a = setTimeout(() => {
-      t = Date.now(), a = null, e.apply(this, s);
+), L = (e, t) => {
+  let i = 0, o = null;
+  const a = function(...s) {
+    const l = Date.now(), r = t - (l - i);
+    r <= 0 ? (o && (clearTimeout(o), o = null), i = l, e.apply(this, s)) : o || (o = setTimeout(() => {
+      i = Date.now(), o = null, e.apply(this, s);
     }, r));
   };
-  return o.cancel = () => {
-    a && (clearTimeout(a), a = null);
-  }, o;
-}, P = (e) => {
+  return a.cancel = () => {
+    o && (clearTimeout(o), o = null);
+  }, a;
+}, z = (e) => {
   if (!e || typeof e != "string")
     return !1;
-  const i = e.trim().toLowerCase();
-  return i !== "transparent" && i !== "rgba(0, 0, 0, 0)" && !i.includes("var(");
-}, w = {
+  const t = e.trim().toLowerCase();
+  return t !== "transparent" && t !== "rgba(0, 0, 0, 0)" && !t.includes("var(");
+};
+let c = null;
+window.__bmsLogged || (window.__bmsLogged = !0, console.info("%c Bubble Mobile Sections v1.0.0 ", "background:#111827;color:#fff;padding:2px 8px;border-radius:6px;font-weight:600;"));
+const S = {
   initialized: !1,
   activeSection: null,
   lastPath: null,
@@ -171,25 +182,25 @@ const l = {
   wakeDebounce: null,
   eventHandlers: null,
   isMobile() {
-    return window.matchMedia(`(max-width: ${l.mobileBreakpoint}px)`).matches;
+    return window.matchMedia(`(max-width: ${c.mobileBreakpoint}px)`).matches;
   },
   isEnabledPage() {
-    return l.enabledPatterns.some((e) => E(e).test(location.pathname));
+    return c.enabledPatterns.some((e) => R(e).test(location.pathname));
   },
   areReferencesValid() {
     return !(this.sections.length === 0 || !this.sections[0].element?.isConnected || this.sectionsView && !this.sectionsView.isConnected);
   },
-  showSection(e, i = !0) {
-    this.activeSection !== e && (this.activeSection = e, i && history.replaceState(null, "", `#${encodeURIComponent(e)}`), this.pendingRaf && cancelAnimationFrame(this.pendingRaf), this.pendingRaf = requestAnimationFrame(() => {
+  showSection(e, t = !0) {
+    this.activeSection !== e && (this.activeSection = e, t && history.replaceState(null, "", `#${encodeURIComponent(e)}`), this.pendingRaf && cancelAnimationFrame(this.pendingRaf), this.pendingRaf = requestAnimationFrame(() => {
       this.pendingRaf = null;
-      for (const a of this.allSectionDivs)
-        a.style.display = "none";
-      for (const a of this.allCardDivs)
-        a.style.display = "none";
-      for (const a of this.sections)
-        a.element.style.display = "none";
-      const t = this.sectionMap.get(e);
-      t && (t.element.style.display = "", t.sectionDiv && (t.sectionDiv.style.display = ""), t.cardDiv && (t.cardDiv.style.display = ""));
+      for (const o of this.allSectionDivs)
+        o.style.display = "none";
+      for (const o of this.allCardDivs)
+        o.style.display = "none";
+      for (const o of this.sections)
+        o.element.style.display = "none";
+      const i = this.sectionMap.get(e);
+      i && (i.element.style.display = "", i.sectionDiv && (i.sectionDiv.style.display = ""), i.cardDiv && (i.cardDiv.style.display = ""));
     }));
   },
   showAllSections() {
@@ -201,7 +212,7 @@ const l = {
       e.element.style.display = "";
   },
   addViewPadding() {
-    this.sectionsView && u.element && (l.safeAreaPadding && (u.element.style.paddingBottom = "env(safe-area-inset-bottom, 0px)"), requestAnimationFrame(() => {
+    this.sectionsView && u.element && (c.safeAreaPadding && (u.element.style.paddingBottom = "env(safe-area-inset-bottom, 0px)"), requestAnimationFrame(() => {
       if (this.sectionsView && u.element) {
         const e = u.element.getBoundingClientRect().height;
         this.sectionsView.style.paddingBottom = `${e}px`;
@@ -212,71 +223,71 @@ const l = {
     this.sectionsView && (this.sectionsView.style.paddingBottom = "");
   },
   getSectionsView() {
-    for (const e of l.sectionViewPaths) {
-      const i = C(e);
-      if (i)
-        return i;
+    for (const e of c.sectionViewPaths) {
+      const t = P(e);
+      if (t)
+        return t;
     }
     return null;
   },
   extractSeparatorInfo(e) {
-    const i = e.shadowRoot ?? e, t = i.querySelector(".bubble-name"), a = i.querySelector(".bubble-line"), o = i.querySelector("ha-icon"), s = t?.textContent?.trim();
+    const t = e.shadowRoot ?? e, i = t.querySelector(".bubble-name"), o = t.querySelector(".bubble-line"), a = t.querySelector("ha-icon"), s = i?.textContent?.trim();
     if (!s)
       return null;
-    const c = o?.getAttribute("icon") ?? o?.icon ?? l.defaultIcon;
+    const l = a?.getAttribute("icon") ?? a?.icon ?? c.defaultIcon;
     let r = null;
-    if (a)
+    if (o)
       try {
-        const b = window.getComputedStyle(a).backgroundColor;
-        P(b) && (r = b);
+        const b = window.getComputedStyle(o).backgroundColor;
+        z(b) && (r = b);
       } catch {
       }
-    return { name: s, icon: c, color: r };
+    return { name: s, icon: l, color: r };
   },
   detectSections() {
     const e = this.getSectionsView();
     if (!e)
       return null;
-    const i = [], t = [], a = [], o = /* @__PURE__ */ new Map(), s = [e], c = /* @__PURE__ */ new WeakSet();
+    const t = [], i = [], o = [], a = /* @__PURE__ */ new Map(), s = [e], l = /* @__PURE__ */ new WeakSet();
     for (; s.length > 0; ) {
       const n = s.pop();
-      if (!n || c.has(n))
+      if (!n || l.has(n))
         continue;
-      c.add(n);
-      const v = n.classList, h = n.tagName?.toLowerCase(), k = n.querySelector?.(".bubble-name") ?? n.shadowRoot?.querySelector?.(".bubble-name"), D = n.querySelector?.(".bubble-line") ?? n.shadowRoot?.querySelector?.(".bubble-line");
-      if (v?.contains("section") && i.push(n), v?.contains("card") && t.push(n), h === "hui-vertical-stack-card" && a.push(n), k && D) {
-        const d = g(n, (m) => m.tagName?.toLowerCase() === "hui-vertical-stack-card");
-        d && !o.has(d) && o.set(d, n);
+      l.add(n);
+      const v = n.classList, d = n.tagName?.toLowerCase(), x = n.querySelector?.(".bubble-name") ?? n.shadowRoot?.querySelector?.(".bubble-name"), C = n.querySelector?.(".bubble-line") ?? n.shadowRoot?.querySelector?.(".bubble-line");
+      if (v?.contains("section") && t.push(n), v?.contains("card") && i.push(n), d === "hui-vertical-stack-card" && o.push(n), x && C) {
+        const h = w(n, (m) => m.tagName?.toLowerCase() === "hui-vertical-stack-card");
+        h && !a.has(h) && a.set(h, n);
       }
-      if (n.shadowRoot && !c.has(n.shadowRoot)) {
-        c.add(n.shadowRoot);
-        const d = n.shadowRoot.children, m = d.length;
+      if (n.shadowRoot && !l.has(n.shadowRoot)) {
+        l.add(n.shadowRoot);
+        const h = n.shadowRoot.children, m = h.length;
         for (let f = m - 1; f >= 0; f--)
-          s.push(d[f]);
+          s.push(h[f]);
       }
       const p = n.children;
       if (p) {
-        const d = p.length;
-        for (let m = d - 1; m >= 0; m--)
+        const h = p.length;
+        for (let m = h - 1; m >= 0; m--)
           s.push(p[m]);
       }
     }
-    const r = [], b = /* @__PURE__ */ new Set(), y = (n) => n.classList?.contains("section"), S = (n) => n.classList?.contains("card");
-    for (const n of a) {
-      const v = o.get(n);
+    const r = [], b = /* @__PURE__ */ new Set(), k = (n) => n.classList?.contains("section"), D = (n) => n.classList?.contains("card");
+    for (const n of o) {
+      const v = a.get(n);
       if (!v)
         continue;
-      const h = this.extractSeparatorInfo(v);
-      !h || b.has(h.name) || (r.push({
-        name: h.name,
-        icon: h.icon,
-        color: h.color,
+      const d = this.extractSeparatorInfo(v);
+      !d || b.has(d.name) || (r.push({
+        name: d.name,
+        icon: d.icon,
+        color: d.color,
         element: n,
-        sectionDiv: g(n, y),
-        cardDiv: g(n, S)
-      }), b.add(h.name));
+        sectionDiv: w(n, k),
+        cardDiv: w(n, D)
+      }), b.add(d.name));
     }
-    return { sections: r, allSectionDivs: i, allCardDivs: t, sectionsView: e };
+    return { sections: r, allSectionDivs: t, allCardDivs: i, sectionsView: e };
   },
   init() {
     if (this.initialized || !this.isMobile() || !this.isEnabledPage())
@@ -287,8 +298,8 @@ const l = {
     this.sections = e.sections, this.allSectionDivs = e.allSectionDivs, this.allCardDivs = e.allCardDivs, this.sectionsView = e.sectionsView, this.sectionMap.clear();
     for (const s of this.sections)
       this.sectionMap.set(s.name, s);
-    const t = decodeURIComponent(location.hash.slice(1)), o = this.sectionMap.has(t) ? t : this.sections[0].name;
-    return u.create(this.sections, (s) => this.showSection(s)), this.addViewPadding(), this.showSection(o, !1), this.lastPath = location.pathname, this.initialized = !0, !0;
+    const i = decodeURIComponent(location.hash.slice(1)), a = this.sectionMap.has(i) ? i : this.sections[0].name;
+    return u.create(this.sections, (s) => this.showSection(s)), this.addViewPadding(), this.showSection(a, !1), this.lastPath = location.pathname, this.initialized = !0, !0;
   },
   cleanup() {
     this.stopPolling(), this.pendingRaf && (cancelAnimationFrame(this.pendingRaf), this.pendingRaf = null), this.wakeDebounce && (clearTimeout(this.wakeDebounce), this.wakeDebounce = null), u.destroy(), this.showAllSections(), this.removeViewPadding(), this.initialized = !1, this.activeSection = null, this.sections = [], this.sectionMap.clear(), this.allSectionDivs = [], this.allCardDivs = [], this.sectionsView = null;
@@ -297,8 +308,8 @@ const l = {
     if (this.pollId || this.init())
       return;
     let e = 0;
-    const i = () => {
-      if (e++, e > l.pollMaxAttempts) {
+    const t = () => {
+      if (e++, e > c.pollMaxAttempts) {
         this.stopPolling();
         return;
       }
@@ -307,10 +318,10 @@ const l = {
         return;
       }
       this.pollId = setTimeout(() => {
-        requestAnimationFrame(i);
-      }, l.pollInterval);
+        requestAnimationFrame(t);
+      }, c.pollInterval);
     };
-    requestAnimationFrame(i);
+    requestAnimationFrame(t);
   },
   stopPolling() {
     this.pollId && (clearTimeout(this.pollId), this.pollId = null);
@@ -319,8 +330,8 @@ const l = {
     this.wakeDebounce && clearTimeout(this.wakeDebounce), this.wakeDebounce = setTimeout(() => {
       this.wakeDebounce = null, this.initialized && this.cleanup(), this.isMobile() && this.isEnabledPage() && this.startPolling(), setTimeout(() => {
         this.initialized && !this.areReferencesValid() && (this.cleanup(), this.startPolling());
-      }, l.wakeRecheckDelay);
-    }, l.wakeDebounceDelay);
+      }, c.wakeRecheckDelay);
+    }, c.wakeDebounceDelay);
   },
   handleResize() {
     const e = this.isMobile() && this.isEnabledPage();
@@ -328,7 +339,7 @@ const l = {
   },
   handleNavigation() {
     const e = location.pathname;
-    this.lastPath !== e && (this.lastPath = e, this.cleanup(), this.stopPolling(), this.isMobile() && this.isEnabledPage() && setTimeout(() => this.startPolling(), l.navigationDelay));
+    this.lastPath !== e && (this.lastPath = e, this.cleanup(), this.stopPolling(), this.isMobile() && this.isEnabledPage() && setTimeout(() => this.startPolling(), c.navigationDelay));
   },
   handleHashChange() {
     if (!this.initialized)
@@ -337,15 +348,15 @@ const l = {
     this.sectionMap.has(e) && e !== this.activeSection && this.showSection(e, !1);
   },
   bootstrap() {
-    this.eventHandlers = {
-      resize: x(() => this.handleResize(), l.resizeThrottleDelay),
+    c || (c = y()), this.eventHandlers = {
+      resize: L(() => this.handleResize(), c.resizeThrottleDelay),
       navigation: () => this.handleNavigation(),
       hashchange: () => this.handleHashChange(),
       visibilitychange: () => {
         document.visibilityState === "visible" && this.handleWake();
       },
-      pageshow: (i) => {
-        i.persisted && this.handleWake();
+      pageshow: (t) => {
+        t.persisted && this.handleWake();
       }
     }, window.addEventListener("resize", this.eventHandlers.resize, { passive: !0 }), window.addEventListener("location-changed", this.eventHandlers.navigation, { passive: !0 }), window.addEventListener("popstate", this.eventHandlers.navigation, { passive: !0 }), window.addEventListener("hashchange", this.eventHandlers.hashchange, { passive: !0 }), document.addEventListener("visibilitychange", this.eventHandlers.visibilitychange), window.addEventListener("pageshow", this.eventHandlers.pageshow);
     const e = () => {
@@ -357,5 +368,5 @@ const l = {
     this.cleanup(), this.eventHandlers && (this.eventHandlers.resize?.cancel?.(), window.removeEventListener("resize", this.eventHandlers.resize), window.removeEventListener("location-changed", this.eventHandlers.navigation), window.removeEventListener("popstate", this.eventHandlers.navigation), window.removeEventListener("hashchange", this.eventHandlers.hashchange), document.removeEventListener("visibilitychange", this.eventHandlers.visibilitychange), window.removeEventListener("pageshow", this.eventHandlers.pageshow), this.eventHandlers = null);
   }
 };
-window.bubbleMobileSectionsShutdown = () => w.shutdown();
-w.bootstrap();
+window.bubbleMobileSectionsShutdown = () => S.shutdown();
+S.bootstrap();

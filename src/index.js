@@ -1,9 +1,18 @@
 /**
  * Bubble Mobile Sections
  */
-import { CONFIG } from './config.js'
+import { getConfig } from './config.js'
 import { Navigation } from './navigation.js'
+
+let CONFIG = null
 import { throttle, globToRegex, findAncestor, getDeepElement, isValidColor } from './utils.js'
+
+if (!window.__bmsLogged) {
+  window.__bmsLogged = true
+  const label = ` Bubble Mobile Sections v${__BMS_VERSION__} `
+  // eslint-disable-next-line no-console
+  console.info(`%c${label}`, 'background:#111827;color:#fff;padding:2px 8px;border-radius:6px;font-weight:600;')
+}
 
 const BMS = {
   initialized: false,
@@ -348,6 +357,9 @@ const BMS = {
     }
   },
   bootstrap() {
+    if (!CONFIG) {
+      CONFIG = getConfig()
+    }
     this.eventHandlers = {
       resize: throttle(() => this.handleResize(), CONFIG.resizeThrottleDelay),
       navigation: () => this.handleNavigation(),

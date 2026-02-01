@@ -81,39 +81,39 @@ html {
 
 ## Configuration
 
-Optional. Add before the resource loads:
-
 ```javascript
-window.bmsConfig = {
-  // Max screen width in pixels for mobile mode
-  mobileBreakpoint: 767,
-  // Enable to add a bottom padding to the navigation that is equal to the device safe area
-  safeAreaPadding: false,
-  // URL glob patterns where navigation is active (use `*` for segment and `**` for any path)
-  enabledPatterns: ['/lovelace/*'],
-  // Shadow DOM element paths to find the sections view
-  sectionViewPaths: [
-    // main view
-    ['home-assistant', 'home-assistant-main', 'ha-panel-lovelace', 'hui-root', 'hui-sections-view'],
-    // tabs inside main view
-    ['home-assistant', 'home-assistant-main', 'partial-panel-resolver', 'ha-panel-lovelace', 'hui-root', 'hui-sections-view'],
-  ],
-  // Fallback icon when separator has no icon
-  defaultIcon: 'mdi:view-dashboard',
-  // ID for the injected style element
-  styleId: 'bms',
-  // Interval in ms between DOM detection attempts
-  pollInterval: 200,
-  // Max detection attempts before giving up
-  pollMaxAttempts: 50,
-  // Delay in ms before rechecking after device wake
-  wakeDebounceDelay: 300,
-  // Delay in ms for secondary wake recheck
-  wakeRecheckDelay: 500,
-  // Delay in ms after URL navigation changes
-  navigationDelay: 100,
-  // Throttle delay in ms for resize events
-  resizeThrottleDelay: 150,
+window.BubbleMobileSections = {
+  config: {
+    // Max screen width in pixels for mobile mode
+    mobileBreakpoint: 767,
+    // Enable to add a bottom padding to the navigation that is equal to the device safe area
+    safeAreaPadding: false,
+    // URL glob patterns where navigation is active (use `*` for segment and `**` for any path)
+    enabledPatterns: ['/lovelace/*'],
+    // Shadow DOM element paths to find the sections view
+    sectionViewPaths: [
+      // main view
+      ['home-assistant', 'home-assistant-main', 'ha-panel-lovelace', 'hui-root', 'hui-sections-view'],
+      // tabs inside main view
+      ['home-assistant', 'home-assistant-main', 'partial-panel-resolver', 'ha-panel-lovelace', 'hui-root', 'hui-sections-view'],
+    ],
+    // Fallback icon when separator has no icon
+    defaultIcon: 'mdi:view-dashboard',
+    // ID for the injected style element
+    styleId: 'bms',
+    // Interval in ms between DOM detection attempts
+    pollInterval: 200,
+    // Max detection attempts before giving up
+    pollMaxAttempts: 50,
+    // Delay in ms before rechecking after device wake
+    wakeDebounceDelay: 300,
+    // Delay in ms for secondary wake recheck
+    wakeRecheckDelay: 500,
+    // Delay in ms after URL navigation changes
+    navigationDelay: 100,
+    // Throttle delay in ms for resize events
+    resizeThrottleDelay: 150,
+  },
 }
 ```
 
@@ -139,6 +139,10 @@ Button labels are already rendered (as `.bms-btn-label`) but hidden by default t
   white-space: nowrap;
 }
 ```
+
+## Known Limitations
+
+This plugin is currently not compatible with [Bubble Card Popups](https://github.com/Clooos/Bubble-Card?tab=readme-ov-file#pop-up)
 
 ## Troubleshooting
 
