@@ -6,7 +6,6 @@ Bottom navigation for Home Assistant Lovelace sections dashboards on mobile. It 
 
 | ![Desktop](screenshots/desktop.png) | ![Mobile](screenshots/mobile.png) |
 | :---------------------------------: | :-------------------------------: |
-|               Desktop               |              Mobile               |
 
 ## Requirements
 
@@ -33,7 +32,7 @@ Bottom navigation for Home Assistant Lovelace sections dashboards on mobile. It 
    - Type: javascript module
 4. Restart Home Assistant
 
-## Setup
+### Setup
 
 Add Bubble Card separator cards to your dashboard. Each separator becomes a navigation button. The separator's icon and color are used for the button, the name for routing.
 
@@ -41,7 +40,9 @@ The navigation bar appears automatically on mobile devices on enabled dashboard 
 
 ## Customization
 
-### via a YAML theme
+### CSS
+
+Use `#bms-nav` to target the nav and its children. The following CSS variables are available:
 
 | Variable                      | Default                    | Description                      |
 | ----------------------------- | -------------------------- | -------------------------------- |
@@ -61,14 +62,21 @@ The navigation bar appears automatically on mobile devices on enabled dashboard 
 | `bms-btn-active-opacity`      | `0.8`                      | Opacity when pressed             |
 | `bms-btn-icon-size`           | `24px`                     | Icon size                        |
 
-### via CSS
+These variables can be set in a YAML theme or via a CSS override file.
 
-Use `#bms-nav` to completely override the nav styles
+To use an override file, create `config/www/bms-overrides.css` and add it as a resource in **Settings → Dashboards → Resources** or in your dashboard YAML:
+
+```yaml
+resources:
+  - url: /local/bms-overrides.css
+    type: css
+```
+
+Example `bms-overrides.css`:
 
 ```css
 #bms-nav {
   --bms-btn-text-color: pink;
-
   box-shadow: 0 0 10px #000;
 }
 
@@ -77,7 +85,30 @@ Use `#bms-nav` to completely override the nav styles
 }
 ```
 
-## Configuration
+Button labels are rendered (as `.bms-btn-label`) but hidden by default. To show icon + text buttons:
+
+```css
+#bms-nav .bms-btn {
+  gap: 6px;
+}
+#bms-nav .bms-btn-label {
+  display: inline;
+  font-size: 12px;
+  white-space: nowrap;
+}
+```
+
+### JavaScript
+
+To override default config values, create `config/www/bms-config.js` and add it as a resource in **Settings → Dashboards → Resources** or in your dashboard YAML:
+
+```yaml
+resources:
+  - url: /local/bms-config.js
+    type: module
+```
+
+Example `bms-config.js`:
 
 ```javascript
 window.BubbleMobileSections = {
@@ -115,28 +146,15 @@ window.BubbleMobileSections = {
 }
 ```
 
-## Shadow DOM & View Detection
+## Advanced
 
-This plugin runs inside Home Assistant's Shadow DOM. To locate the active Sections view reliably, it follows a configured list of element paths (`sectionViewPaths`). Trying to discover the right view dynamically (querying/inspecting across nested shadow roots, re-checking after navigation, and handling multiple HA layouts) is expensive and can add noticeable overhead on mobile devices.
+### Shadow DOM & View Detection
 
-## Timing & Polling Tuning
+This plugin runs inside Home Assistant's Shadow DOM. To locate the active Sections view reliably, it follows a configured list of element paths (`sectionViewPaths`). The default paths work out of the box for Lovelace Sections views, but can be adapted to work with any Shadow DOM tree.
+
+### Timing & Polling Tuning
 
 All detection/refresh intervals are exposed because the best values depend on your dashboard complexity and device performance. If you notice a brief flash of content, or the navigation appears a bit late/early after navigation or wake, tweak `pollInterval`, `pollMaxAttempts`, and the wake/navigation delays to match your setup.
-
-## Button Labels & Styling
-
-Button labels are already rendered (as `.bms-btn-label`) but hidden by default to keep the bar compact. If you want icon + text buttons, you can unhide them with CSS:
-
-```css
-#bms-nav .bms-btn {
-  gap: 6px;
-}
-#bms-nav .bms-btn-label {
-  display: inline;
-  font-size: 12px;
-  white-space: nowrap;
-}
-```
 
 ## Known Limitations
 
@@ -144,7 +162,7 @@ This plugin is currently not compatible with [Bubble Card Popups](https://github
 
 ## Troubleshooting
 
-When testing several configurations on mobile devices, clear the fontend cache (settings > companion app > debugging > reset frontend cache).
+When testing several configurations on mobile devices, clear the frontend cache in **Settings → Companion app → Debugging → Reset frontend cache**.
 
 ## License
 

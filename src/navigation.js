@@ -15,7 +15,7 @@ export const Navigation = {
           --bms-nav-background: rgba(28, 28, 28, 0.1);
           --bms-nav-border-color: rgba(255, 255, 255, 0.1);
           --bms-nav-gap: 8px;
-          --bms-nav-z-index: 9;
+          --bms-nav-z-index: 2;
           --bms-nav-blur: 10px;
           --bms-btn-height: 48px;
           --bms-btn-min-width: 48px;
@@ -95,6 +95,7 @@ export const Navigation = {
           opacity: var(--bms-btn-active-opacity);
         }
         .bms-btn ha-icon {
+          --mdc-icon-size: var(--bms-btn-icon-size);
           position: relative;
           color: var(--bms-btn-color);
           transition: color var(--bms-btn-transition-duration) ease;
@@ -107,9 +108,6 @@ export const Navigation = {
         }
         .bms-btn-label {
           display: none;
-        }
-        ha-icon {
-          --mdc-icon-size: var(--bms-btn-icon-size);
         }
       `
     document.head.appendChild(style)
